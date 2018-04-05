@@ -1,22 +1,3 @@
-# require 'rails_helper'
-
-# RSpec.describe Notification, type: :request do
-#   it 'creates a Notification' do
-#     headers = {
-#       'ACCEPT' => 'application/json'
-#     }
-#     post "/notifications",
-#       {
-#       notification: {
-#         phone: '123456789',
-#         body: 'My message',
-#         source_app: 'App_name'
-#       }
-#     }, headers
-#     expect(response.content_type).to eq("application/json")
-#     expect(response).to have_http_status(:created)
-#   end
-# end
 require "rails_helper"
 
 RSpec.describe Notification, type: :request do
@@ -43,4 +24,17 @@ RSpec.describe Notification, type: :request do
     expect(response).to have_http_status(:created)
   end
 
+  it 'responds with error for invalid attributes' do
+    headers = {
+      'ACCEPT' => 'application/json'
+    }
+
+    post '/notifications',
+    params: {
+      notification: {
+        phone: "5555555555",
+        body: "My Message"
+      }
+    }, headers: headers
+  end
 end
