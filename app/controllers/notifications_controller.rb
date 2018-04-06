@@ -1,7 +1,9 @@
 class NotificationsController < ApplicationController
+  include SmsTool
   def create
     @notification = Notification.new(notification_params)
     if @notification.save
+      SmsTool.send_sms("12345678", "check", "My APP")
       render json: @notification, status: :created
     else
       render json: @notification.errors, status: :unprocessable_entity
