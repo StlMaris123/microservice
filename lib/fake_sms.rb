@@ -1,5 +1,5 @@
 module FakeSms
-  Messages = Struct.new(:num, :msg, :app)
+  Message = Struct.new(:num, :msg, :app)
   @messages = []
 
   def self.send_sms(num,msg,app)
