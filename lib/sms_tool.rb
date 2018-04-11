@@ -1,6 +1,14 @@
 module SmsTool
-  def self.send_sms(num, msg,app)
-    puts "Sending message...."
-    puts "#{msg} to #{num} from #{app}"
+  account_sid = ENV['TWILIO_ACCOUNT_SID']
+  auth_token  = ENV['TWILIO_AUTH_TOKEN']
+
+  @client = Twilio::REST::Client.new account_sid, auth_token
+
+  def self.send_sms(num, msg, app)
+    @client.messages.create(
+      from: ENV['TWILIO_PHONE_NUMBER'],
+      to: "+254#{num}",
+      body: "#{msg} from #{app}"
+    )
   end
 end
