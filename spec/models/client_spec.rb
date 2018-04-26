@@ -13,4 +13,11 @@ RSpec.describe Client, type: :model do
         expect(duplicate_client).to_not be_valid
     end
   end
+
+  describe 'callbacks' do
+    it 'will automatically have an api key when created' do
+      client = Client.create(source_app: "app name")
+      expect(client.api_key).to_not be_nil
+    end
+  end
 end
