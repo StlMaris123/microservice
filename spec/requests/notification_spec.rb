@@ -3,8 +3,10 @@ require "rails_helper"
 RSpec.describe Notification, type: :request do
 
   it "creates a Notification" do
+    client = FactoryBot.create(:client)
     headers = {
-      "ACCEPT" => "application/json"
+      "ACCEPT" => "application/json",
+      "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials(client.source_app, client.api_key)
 
     }
 
