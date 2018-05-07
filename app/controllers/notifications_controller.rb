@@ -33,7 +33,7 @@ class NotificationsController < ApplicationController
   end
 
   def authenticate
-    authenticate_with_http_basic do |source_app, api_key|
+    authenticate_or_request_with_http_basic do |source_app, api_key|
       client = Client.find_by_source_app(source_app)
       client && client.api_key == api_key
     end
