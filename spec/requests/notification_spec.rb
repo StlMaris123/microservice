@@ -1,14 +1,16 @@
 require "rails_helper"
 
 RSpec.describe Notification, type: :request do
-
-  it "creates a Notification" do
+  before do
     client = FactoryBot.create(:client)
-    headers = {
+    @headers = {
       "ACCEPT" => "application/json",
       "HTTP_AUTHORIZATION" => ActionController::HttpAuthentication::Basic.encode_credentials(client.source_app, client.api_key)
 
     }
+  end
+
+  it "creates a Notification" do
 
     post "/notifications",
       params: {
@@ -20,7 +22,8 @@ RSpec.describe Notification, type: :request do
 
       }
 
-      }, headers: headers
+      }, headers: @headers
+
 
     expect(response.content_type).to eq("application/json")
     expect(response).to have_http_status(:created)
@@ -28,16 +31,15 @@ RSpec.describe Notification, type: :request do
   end
 
   it 'responds with error for invalid attributes' do
-    headers = {
-      'ACCEPT' => 'application/json'
-    }
 
     post '/notifications',
     params: {
       notification: {
         phone: "5555555555",
-        body: "My Message"
+        body: "My Message",
       }
-    }, headers: headers
+    }, headers: @headers
+    expect(response.content_type).to eq("application/json")
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 end
